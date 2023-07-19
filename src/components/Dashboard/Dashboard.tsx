@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import { Drawer as MUIDrawer,
-    ListItemButton,
-    List,
-    ListItemText,
+    ListItemButton, 
+    List, 
+    ListItemText, 
     AppBar,
     Toolbar,
     IconButton,
     Typography,
     Divider,
     Button,
-    CssBaseline,
-    Box
-} from '@mui/material';
+    CssBaseline, 
+    Box,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle    
+} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import { ChevronRight, ChevronLeft } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { theme } from '../../Theme/themes';
+import { ChevronRight,ChevronLeft } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { theme } from "../../Theme/themes";
+import { DataTable } from '../../components';
+import { CarForm } from '../CarForm';
 
 const drawerWidth = 240;
 
@@ -80,9 +87,11 @@ const myStyles = {
     }
 };
 
-export const Dashboard = () =>{
+export const Dashboard = () => {
     const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
+    const [ open, setOpen ] = useState(false);
+    const [ dialogOpen, setDialogOpen ] = useState(false)
+
 
     const handleDrawerOpen = () => {
         setOpen(true)
@@ -90,6 +99,14 @@ export const Dashboard = () =>{
 
     const handleDrawerClose = () => {
         setOpen(false)
+    }
+
+    const handleDialogOpen = () => {
+        setDialogOpen(true)
+    }
+
+    const handleDialogClose = () => {
+        setDialogOpen(false)
     }
 
     const itemsList = [
@@ -121,7 +138,17 @@ export const Dashboard = () =>{
                         <MenuIcon />                           
                     </IconButton>
                     <Typography variant='h6' noWrap>Dashboard</Typography>
-                    <Button sx={ myStyles.toolbarButton }>Create a Car</Button>
+                    <Button onClick={ handleDialogOpen } sx={ myStyles.toolbarButton }>Create a Car</Button>
+                    <Dialog open={ dialogOpen } onClose={ handleDialogClose } aria-labelledby='form-dialog-title'>
+                        <DialogTitle id='form-dialog-title'>Add a New Car</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText> Enter Car Info Here: </DialogContentText>
+                            <CarForm />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleDialogClose} color='error'>Cancel</Button> 
+                        </DialogActions>
+                    </Dialog> 
                 </Toolbar>
             </AppBar>
             <MUIDrawer
@@ -151,7 +178,7 @@ export const Dashboard = () =>{
             <Box sx={ myStyles.content } >
                 <Box sx={ myStyles.drawerHeader } />
                 <Typography variant='h1'>Hello World Until Data Shows Up</Typography>
-
+                <DataTable />
             </Box>
         </Box>
     )
