@@ -8,7 +8,8 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle } from '@mui/material'; 
+    DialogTitle, 
+    Typography} from '@mui/material'; 
 
 // Internal Imports
 import { serverCalls } from '../../api';
@@ -81,6 +82,9 @@ export const DataTable = () => {
     }
 
 
+    const myAuth = localStorage.getItem('myAuth')
+
+    if (myAuth === 'true'){
     return (
         <Box sx={{ height: 400, width: '100%'}}>
             <DataGrid
@@ -99,17 +103,23 @@ export const DataTable = () => {
             />
             <Button onClick={handleOpen}>Update</Button>
             <Button variant='contained' color='warning' onClick={deleteData}>Delete</Button>
+            {/* Dialog Popup for Updating a Car */}
             <Dialog open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
-                <DialogTitle id='form-dialog-title'>Update a Car</DialogTitle>
+                <DialogTitle id='form-dialog-title'>Update A Car</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>Drone id: {gridData[0]}</DialogContentText>
-                    <CarForm id={`${gridData[0]}`}/>
+                    <DialogContentText>Car id: {gridData[0]}</DialogContentText>
+                    <CarForm id={`${gridData[0]}`} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color='error'>Cancel</Button>
                 </DialogActions>
             </Dialog>
         </Box>
-    );
-    
-}
+        )} else {
+            return (
+                <Box>
+                    <Typography variant='h4'>Please Sign In to View your Cars!</Typography>
+                </Box>
+            )
+        }
+  }

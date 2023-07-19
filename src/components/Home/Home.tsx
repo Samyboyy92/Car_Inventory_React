@@ -65,35 +65,40 @@ const MainText = styled('div')({
     color: 'white'
 })
 
-export const Home = (props: Props) =>{
+export const Home = (props: Props) => {
+    const myAuth = localStorage.getItem('myAuth')
     return (
         <Root>
             <NavBarContainer>
                 <Logo>
-                    <LogoA to="/">Cars</LogoA>
+                    <LogoA to="/">Drones</LogoA>
                 </Logo>
-                    <LogoNavigation>
+                <LogoNavigation>
                     <li>
-                    <NavA to="/">Home</NavA>
+                        <NavA to='/'>Home</NavA>
                     </li>
-                    <li>
-                    <NavA to="/dashboard">Dashboard</NavA>
-                    </li>
-                    <li>
-                    <NavA to="/signin">Sign In</NavA>
-                    </li>
-                    <li>
-                    <NavA to="/siginin">Sign Up</NavA>
-                    </li>
-                    </LogoNavigation>
-            </NavBarContainer>
-            <Main>
+                    {myAuth === 'true' ? 
+                        <><li>
+                        <NavA to='/dashboard'>Dashboard</NavA>
+                       </li><li>
+                            <NavA to='/signin'>Sign Out</NavA>
+                        </li></>
+                        :
+                         <><li>
+                         <NavA to='/signin'>Sign In</NavA>
+                        </li><li>
+                             <NavA to='/signup'>Sign Up</NavA>
+                         </li></>
+                    }  
+                   
+            </LogoNavigation>
+        </NavBarContainer><Main>
                 <MainText>
                     <h1>{props.title}</h1>
-                    <p> Welcome to our Car page!</p>
+                    <p> Welcome to our Car page!!!</p>
                     <Button color='primary' variant='contained' component={Link} to="/dashboard">See the Cars</Button>
                 </MainText>
-            </Main>                
+            </Main>
         </Root>
     )
 }
